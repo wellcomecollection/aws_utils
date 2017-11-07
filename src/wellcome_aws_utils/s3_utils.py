@@ -85,7 +85,7 @@ def parse_s3_record(event):
     return [_extract_s3_event(record) for record in event["Records"]]
 
 
-def write_json_objects_to_s3(bucket, key, objects):
+def write_objects_to_s3(bucket, key, objects):
     """
     Given an iterable of objects that can be serialised as JSON, serialise
     them as JSON, and write them to a file in S3, one per line.
