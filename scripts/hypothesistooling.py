@@ -136,12 +136,12 @@ def git(*args):
 
 def create_tag_and_push():
     assert __version__ not in tags()
-    git('config', 'user.name', 'Travis CI on behalf of David R. MacIver')
-    git('config', 'user.email', 'david@drmaciver.com')
+    git('config', 'user.name', 'Travis CI on behalf of Wellcome')
+    git('config', 'user.email', 'wellcomedigitalplatform@wellcome.ac.uk')
     git('config', 'core.sshCommand', 'ssh -i deploy_key')
     git(
         'remote', 'add', 'ssh-origin',
-        'git@github.com:HypothesisWorks/hypothesis-python.git'
+        'git@github.com:wellcometrust/aws_utils.git'
     )
     git('tag', __version__)
 
