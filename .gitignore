@@ -3,3 +3,4 @@
 .docker
 .DS_Store
 dist
+env.list
