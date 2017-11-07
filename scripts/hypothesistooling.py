@@ -138,8 +138,7 @@ def create_tag_and_push():
     assert __version__ not in tags()
     git('config', 'user.name', 'Travis CI on behalf of Wellcome')
     git('config', 'user.email', 'wellcomedigitalplatform@wellcome.ac.uk')
-    git('config', 'core.sshCommand',
-        'ssh -o StrictHostKeyChecking=no -i deploy_key')
+    git('config', 'core.sshCommand', 'ssh -i deploy_key')
     git(
         'remote', 'add', 'ssh-origin',
         'git@github.com:wellcometrust/aws_utils.git'
@@ -150,7 +149,6 @@ def create_tag_and_push():
         'ssh-agent', 'sh', '-c',
         'chmod 0600 deploy_key && '
         'ssh-add deploy_key && '
-        'ssh -T git@github.com && '
         'git push ssh-origin HEAD:master &&'
         'git push ssh-origin --tags'
     ])
