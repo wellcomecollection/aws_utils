@@ -18,4 +18,5 @@ lint: $(ROOT)/.docker/flake8
 deploy: $(ROOT)/.docker/tooling
 	docker run --rm --tty \
 		--volume $(ROOT):/src \
+		--volume ~/.gitconfig:/root/.gitconfig \
 		tooling scripts/deploy.py
