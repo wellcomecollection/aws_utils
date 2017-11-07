@@ -146,6 +146,7 @@ def create_tag_and_push():
     git('tag', __version__)
 
     subprocess.check_call(['cat', '.git/config'])
+    subprocess.check_call(['cat', '/root/.git/config'])
 
 
     subprocess.check_call(['chmod', '600', '/root/.ssh/config'])
