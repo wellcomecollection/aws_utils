@@ -152,7 +152,6 @@ def create_tag_and_push():
 
     subprocess.check_call(['ls', '-l', '/root/.ssh'])
 
-    subprocess.check_call(['mkdir', '-p', '/root/.ssh/deploy_key'])
     subprocess.check_call(['mv', 'deploy_key', '/root/.ssh/deploy_key'])
 
     subprocess.check_call(['git', 'push', 'ssh-origin', 'HEAD:master'])
