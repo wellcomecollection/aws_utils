@@ -20,5 +20,4 @@ deploy: $(ROOT)/.docker/tooling
 	docker run --rm --tty \
 		--env-file env.list \
 		--volume $(ROOT):/src \
-		--volume known_hosts:/root/.ssh/known_hosts \
 		tooling scripts/deploy.py

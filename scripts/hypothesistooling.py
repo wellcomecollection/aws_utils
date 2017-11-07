@@ -138,20 +138,19 @@ def create_tag_and_push():
     assert __version__ not in tags()
     git('config', 'user.name', 'Travis CI on behalf of Wellcome')
     git('config', 'user.email', 'wellcomedigitalplatform@wellcome.ac.uk')
-    git('config', 'core.sshCommand', 'ssh -i deploy_key')
+    git('config', 'core.sshCommand', 'ssh -i ~/.ssh/deploy_key')
     git(
         'remote', 'add', 'ssh-origin',
         'git@github.com:wellcometrust/aws_utils.git'
     )
     git('tag', __version__)
 
-    subprocess.check_call([
-        'ssh-agent', 'sh', '-c',
-        'chmod 0600 deploy_key && '
-        'ssh-add deploy_key && '
-        'git push ssh-origin HEAD:master &&'
-        'git push ssh-origin --tags'
-    ])
+    subprocess.check_call(['chmod', '0600', 'deploy_key'])
+    subprocess.check_call(['mkdir', '-p', '~/.ssh/deploy_key'])
+    subprocess.check_call(['mv', 'deploy_key', '~/.ssh/deploy_key'])
+
+    subprocess.check_call(['git', 'push', 'ssh-origin', 'HEAD:master'])
+    subprocess.check_call(['git', 'push', 'ssh-origin', '--tags'])
 
 
 def build_jobs():
