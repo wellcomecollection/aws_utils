@@ -30,6 +30,8 @@ setup(
     version=__version__,
     install_requires=[
         'boto3',
+        'daiquiri',
+        'python-dateutil',
     ],
     python_requires='>=3.6',
     description='A collection of AWS utilities',
