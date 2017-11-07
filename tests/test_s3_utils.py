@@ -181,7 +181,7 @@ def test_write_objects_to_s3():
 
     s3_utils.write_objects_to_s3(
         bucket='bukkit', key='dicts.txt',
-        dicts=[{'a': 1, 'b': 2}, {'c': 3, 'd': 4}]
+        objects=[{'a': 1, 'b': 2}, {'c': 3, 'd': 4}]
     )
 
     assert s3_utils.is_object(bucket='bukkit', key='dicts.txt')
