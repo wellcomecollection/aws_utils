@@ -130,7 +130,7 @@ if __name__ == '__main__':
 
     if os.environ.get('TRAVIS_SECURE_ENV_VARS', None) != 'true':
         print("But we don't have the keys to do it")
-        sys.exit(0)
+        sys.exit(1)
 
     print('Decrypting secrets')
 
@@ -142,9 +142,8 @@ if __name__ == '__main__':
     # extensive use of environment variables in it), so we're making an
     # exception here.
     subprocess.check_call(
-        'openssl aes-256-cbc -K $encrypted_39cb4cc39a80_key '
-        '-iv $encrypted_39cb4cc39a80_iv -in secrets.tar.enc '
-        '-out secrets.tar -d',
+        'openssl aes-256-cbc -K $encrypted_83630750896a_key '
+        '-iv $encrypted_83630750896a_iv -in deploy_key.enc -out deploy_key -d',
         shell=True
     )
 

@@ -4,3 +4,4 @@
 .DS_Store
 dist
 env.list
+deploy_key
