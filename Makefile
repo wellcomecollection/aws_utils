@@ -15,10 +15,10 @@ $(ROOT)/.docker/tooling: $(ROOT)/docker/tooling.Dockerfile
 lint: $(ROOT)/.docker/flake8
 	docker run --rm --tty --volume $(ROOT):/src flake8
 
-check-release-file: $(ROOT)/.docker/tooling
+check-release-file:
 	docker run --rm --tty \
 		--volume $(ROOT):/src \
-		tooling scripts/check-release-file.py
+		python:3-alpine scripts/check-release-file.py
 
 deploy: $(ROOT)/.docker/tooling
 	env > env.list
