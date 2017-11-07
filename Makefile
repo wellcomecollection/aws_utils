@@ -24,7 +24,7 @@ check-release-file: $(ROOT)/.docker/tooling
 		tooling scripts/check-release-file.py
 
 deploy: $(ROOT)/.docker/tooling
-	env > env.list
+	env | grep -v TRAVIS_COMMIT_MESSAGE > env.list
 	docker run --rm --tty \
 		--env-file env.list \
 		--volume $(ROOT):/src \
