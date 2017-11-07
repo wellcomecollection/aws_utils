@@ -48,7 +48,7 @@ assert os.path.exists(SRC)
 __version__ = None
 __version_info__ = None
 
-VERSION_FILE = os.path.join(ROOT, 'src/hypothesis/version.py')
+VERSION_FILE = os.path.join(ROOT, 'src/wellcome_aws_utils/version.py')
 
 with open(VERSION_FILE) as o:
     exec(o.read())
