@@ -147,7 +147,7 @@ def create_tag_and_push():
 
 
     subprocess.check_call(['chmod', '600', '/root/.ssh/config'])
-    subprocess.check_call(['chmod', '600', 'deploy_key'])
+    subprocess.check_call(['chmod', '400', 'deploy_key'])
     subprocess.check_call(['chown', 'root', '/root/.ssh/config'])
 
     subprocess.check_call(['ls', '-l', '/root/.ssh'])
