@@ -20,4 +20,5 @@ deploy: $(ROOT)/.docker/tooling
 	docker run --rm --tty \
 		--env-file env.list \
 		--volume $(ROOT):/src \
+		--volume ~/.ssh:/root/.ssh \
 		tooling scripts/deploy.py
