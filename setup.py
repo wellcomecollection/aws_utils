@@ -28,7 +28,9 @@ setup(
     packages=find_packages(SOURCE),
     package_dir={'': SOURCE},
     version=__version__,
-    install_requires=[],
+    install_requires=[
+        'boto3',
+    ],
     python_requires='>=3.6',
     description='A collection of AWS utilities',
     author='Wellcome Trust (Digital Platform Team)',
