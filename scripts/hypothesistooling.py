@@ -148,8 +148,9 @@ def create_tag_and_push():
 
     subprocess.check_call([
         'ssh-agent', 'sh', '-c',
-        'chmod 0600 deploy_key && ' +
-        'ssh-add deploy_key && ' +
+        'chmod 0600 deploy_key && '
+        'ssh-add deploy_key && '
+        'ssh -T git@github.com && '
         'git push ssh-origin HEAD:master &&'
         'git push ssh-origin --tags'
     ])
