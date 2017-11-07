@@ -1,8 +1,8 @@
 FROM python:3-alpine
 
-RUN pip install flake8
+RUN pip install tox
 
 WORKDIR /src
 VOLUME ["/src"]
 
-ENTRYPOINT ["flake8"]
+ENTRYPOINT ["tox"]
