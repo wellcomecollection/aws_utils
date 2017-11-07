@@ -145,14 +145,16 @@ def create_tag_and_push():
     )
     git('tag', __version__)
 
+    subprocess.check_call(['cat', '.git/config'])
+
 
     subprocess.check_call(['chmod', '600', '/root/.ssh/config'])
     subprocess.check_call(['chmod', '400', 'deploy_key'])
     subprocess.check_call(['chown', 'root', '/root/.ssh/config'])
 
-    subprocess.check_call(['ls', '-l', '/root/.ssh'])
-
     subprocess.check_call(['mv', 'deploy_key', '/root/.ssh/deploy_key'])
+
+    subprocess.check_call(['ls', '-l', '/root/.ssh'])
 
     subprocess.check_call(['git', 'push', 'ssh-origin', 'HEAD:master'])
     subprocess.check_call(['git', 'push', 'ssh-origin', '--tags'])
