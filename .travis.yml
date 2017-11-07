@@ -9,10 +9,6 @@ branches:
   only:
     master
 
-cache:
-  directories:
-    - .tox
-
 env:
   global:
     - PYPI_USERNAME=wellcomedigitalplatform
