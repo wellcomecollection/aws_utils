@@ -1,0 +1,7 @@
+[run]
+branch = True
+include =
+    **/.tox/*/lib/*/site-packages/wellcome_aws_utils/*.py
+
+[report]
+show_missing = True
