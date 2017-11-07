@@ -111,5 +111,5 @@ __all__ = [
     'is_object',
     'copy_object',
     'parse_s3_record',
-    'write_json_objects_to_s3',
+    'write_objects_to_s3',
 ]
