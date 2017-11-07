@@ -318,6 +318,8 @@ def update_changelog_and_version():
 
 
 def update_for_pending_release():
+    git('config', 'user.name', 'Travis CI on behalf of Wellcome')
+    git('config', 'user.email', 'wellcomedigitalplatform@wellcome.ac.uk')
     update_changelog_and_version()
 
     git('rm', RELEASE_FILE)
