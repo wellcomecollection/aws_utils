@@ -15,6 +15,9 @@ $(ROOT)/.docker/tooling: $(ROOT)/docker/tooling.Dockerfile
 lint: $(ROOT)/.docker/tox
 	docker run --rm --tty --volume $(ROOT):/src tox -e lint
 
+test: $(ROOT)/.docker/tox
+	docker run --rm --tty --volume $(ROOT):/src tox -e py36
+
 check-release-file: $(ROOT)/.docker/tooling
 	docker run --rm --tty \
 		--volume $(ROOT):/src \
@@ -28,4 +31,4 @@ deploy: $(ROOT)/.docker/tooling
 		tooling scripts/deploy.py
 
 
-.PHONY: lint check-release-file deploy
+.PHONY: lint test check-release-file deploy

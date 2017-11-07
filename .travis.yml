@@ -23,6 +23,7 @@ env:
   matrix:
     - TASK=lint
     - TASK=check-release-file
+    - TASK=test
     - TASK=deploy
 
 script:
