@@ -15,6 +15,11 @@ $(ROOT)/.docker/tooling: $(ROOT)/docker/tooling.Dockerfile
 lint: $(ROOT)/.docker/flake8
 	docker run --rm --tty --volume $(ROOT):/src flake8
 
+check-release-file: $(ROOT)/.docker/tooling
+	docker run --rm --tty \
+		--volume $(ROOT):/src \
+		tooling scripts/check-release-file.py
+
 deploy: $(ROOT)/.docker/tooling
 	env > env.list
 	docker run --rm --tty \
@@ -23,4 +28,4 @@ deploy: $(ROOT)/.docker/tooling
 		tooling scripts/deploy.py
 
 
-.PHONY: lint deploy
+.PHONY: lint check-release-file deploy
