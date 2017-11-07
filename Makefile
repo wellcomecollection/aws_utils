@@ -19,7 +19,7 @@ check-release-file:
 	docker run --rm --tty \
 		--volume $(ROOT):/src \
 		--workdir /src \
-		python:3-alpine scripts/check-release-file.py
+		python:3-alpine python scripts/check-release-file.py
 
 deploy: $(ROOT)/.docker/tooling
 	env > env.list
