@@ -39,7 +39,9 @@ def test_publish_sns_message(sns_sqs):
     inner_message = json.loads(message_body)['Message']
     actual_decoded_message = json.loads(inner_message)
 
-    assert json.loads(actual_decoded_message['default']) == expected_decoded_message
+    assert (
+        json.loads(actual_decoded_message['default']) ==
+        expected_decoded_message)
 
 
 def test_extract_json_message():

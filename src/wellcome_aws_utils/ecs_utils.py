@@ -168,7 +168,8 @@ def run_task(
         container_name="app",
         command=[]):
     """
-    Run a given command against a named container in a task definition on a particular cluster.
+    Run a given command against a named container in a task definition
+    on a particular cluster.
 
     Returns the response from calling run_task
     """

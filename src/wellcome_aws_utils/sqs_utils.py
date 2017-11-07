@@ -1,7 +1,5 @@
 # -*- encoding: utf-8 -*-
 
-import logging
-
 import boto3
 import daiquiri
 

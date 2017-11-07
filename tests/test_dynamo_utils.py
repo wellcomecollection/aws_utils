@@ -2,7 +2,10 @@
 
 from wellcome_aws_utils import dynamo_utils
 
-event_source_arn = "arn:aws:dynamodb:us-east-1:123456789012:table/BarkTable/stream/2016-11-16T20:42:48.104"
+event_source_arn = (
+    "arn:aws:dynamodb:us-east-1:123456789012:"
+    "table/BarkTable/stream/2016-11-16T20:42:48.104"
+)
 
 
 def create_dynamodb_record(message):
@@ -79,12 +82,16 @@ def test_getting_new_image_where_not_available_returns_none():
 
 
 def test_get_source_arn():
-    dynamo_image = dynamo_utils.DynamoImage(create_insert_record("foo"), event_source_arn)
+    dynamo_image = dynamo_utils.DynamoImage(
+        create_insert_record("foo"), event_source_arn
+    )
     assert dynamo_image.source_arn == event_source_arn
 
 
-def test_getting_new_image_from_factory_where_not_available_returns_empty_list():
-    dynamo_images = dynamo_utils.DynamoImageFactory.create(_wrap([remove_record]))
+def test_getting_new_image_from_factory_if_not_available_returns_empty_list():
+    dynamo_images = dynamo_utils.DynamoImageFactory.create(
+        _wrap([remove_record])
+    )
     assert dynamo_images == []
 
 
@@ -93,7 +100,9 @@ def test_getting_new_image_from_factory():
 
     records = [create_insert_record(message) for message in expected_messages]
     dynamo_images = dynamo_utils.DynamoImageFactory.create(_wrap(records))
-    actual_simplified_images = [dynamo_image.simplified_new_image for dynamo_image in dynamo_images]
+    actual_simplified_images = [
+        dynamo_image.simplified_new_image for dynamo_image in dynamo_images
+    ]
 
     actual_messages = [image["Message"] for image in actual_simplified_images]
 
