@@ -147,11 +147,7 @@ if __name__ == '__main__':
         shell=True
     )
 
-    subprocess.check_call([
-        'tar', '-xvf', 'secrets.tar',
-    ])
-
-    print('Release seems good. Pushing to github now.')
+    print('Release seems good. Pushing to GitHub now.')
 
     tools.create_tag_and_push()
 
