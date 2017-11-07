@@ -6,6 +6,16 @@ $(ROOT)/.docker/flake8: $(ROOT)/docker/flake8.Dockerfile
 	mkdir -p $(ROOT)/.docker
 	touch $(ROOT)/.docker/flake8
 
+$(ROOT)/.docker/tooling: $(ROOT)/docker/tooling.Dockerfile
+	docker build --tag tooling --file docker/tooling.Dockerfile docker
+	mkdir -p $(ROOT)/.docker
+	touch $(ROOT)/.docker/tooling
+
 
 lint: $(ROOT)/.docker/flake8
 	docker run --rm --tty --volume $(ROOT):/src flake8
+
+deploy: $(ROOT)/.docker/tooling
+	docker run --rm --tty \
+		--volume $(ROOT):/src \
+		tooling scripts/deploy.py

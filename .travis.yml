@@ -12,6 +12,7 @@ branches:
 env:
   matrix:
     - TASK=lint
+    - TASK=deploy
 
 script:
   - make "$TASK"
