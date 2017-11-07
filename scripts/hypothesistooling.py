@@ -139,7 +139,7 @@ def create_tag_and_push():
     git('config', 'user.name', 'Travis CI on behalf of Wellcome')
     git('config', 'user.email', 'wellcomedigitalplatform@wellcome.ac.uk')
     git('config', 'core.sshCommand',
-        'ssh -o StrictHostKeyChecking=no -i deploy_key')
+        'ssh -i deploy_key')
     git(
         'remote', 'add', 'ssh-origin',
         'git@github.com:wellcometrust/aws_utils.git'
@@ -147,7 +147,7 @@ def create_tag_and_push():
     git('tag', __version__)
 
     subprocess.check_call([
-        'ssh-agent', 'sh', '-c',
+        'ssh-agent', 'sh', '-o', 'StrictHostKeyChecking=no', '-c',
         'chmod 0600 deploy_key && ' +
         'ssh-add deploy_key && ' +
         'git push ssh-origin HEAD:master &&'
