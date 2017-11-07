@@ -20,7 +20,7 @@ def s3_event():
                 "eventTime": "1970-01-01T00:00:00.000Z",
                 "eventName": "event-type",
                 "userIdentity": {
-                    "principalId": "Amazon-customer-ID-of-the-user-who-caused-the-event"
+                    "principalId": "CustomerID-who-caused-the-event"
                 },
                 "requestParameters": {
                     "sourceIPAddress": "ip-address-where-request-came-from"
@@ -31,11 +31,11 @@ def s3_event():
                 },
                 "s3": {
                     "s3SchemaVersion": "1.0",
-                    "configurationId": "ID found in the bucket notification configuration",
+                    "configurationId": "ID in bucket notification config",
                     "bucket": {
                         "name": "bucket-name",
                         "ownerIdentity": {
-                            "principalId": "Amazon-customer-ID-of-the-bucket-owner"
+                            "principalId": "CustomerID-of-bucket-owner"
                         },
                         "arn": "bucket-ARN"
                     },
@@ -62,7 +62,9 @@ class TestIsObject(object):
 
         # First check we don't think the object exists
         assert not s3_utils.is_object(bucket='bukkit', key='myfile.txt')
-        client.put_object(Bucket='bukkit', Key='myfile.txt', Body=b'hello world')
+        client.put_object(
+            Bucket='bukkit', Key='myfile.txt', Body=b'hello world'
+        )
 
         # Now check we can detect its existence
         assert s3_utils.is_object(bucket='bukkit', key='myfile.txt')
