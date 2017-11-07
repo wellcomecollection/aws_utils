@@ -10,6 +10,12 @@ branches:
     master
 
 env:
+  global:
+    - PYPI_USERNAME=wellcomedigitalplatform
+
+    # This contains the following variables:
+    #  - PYPI_PASSWORD
+    - secure: 0R9zzHQFqr9A4MJCZq/4w7LQMGrQdOmckLlBQlEoNubz+hj2JpccWD4GQ1OMCiqy9vxCxyVAs//Dg03WnzZPavgDM2R1zQhP7kJ0wLIpfu2Sc2ZEUi6Y5anQDHqWbsebEUDah6dUxJONAKIS+bXT+tlwkoM+VOj6zJ1sS3XjeQXYjYt/mgH8FPOsIAQ6pph0+kd8cdSJqGFZW/OK24bTY2EKgqcOiwF6IfKh7HZdQZcLSmbvgS5gI3d9KzbWo9qbVWe/1pnJizI1+7uY8Xn/H1LrzqZ7nYJkkXfl+tQwadVsCO6DCet4YVDCJ/nBrv6BNlwJKVaoZMckoUaPz5F/N8bF6p6epceiKBG3DzH5I8LjCet6Pa6VH2ZzogBYOgFNSIbb3u75ycsjKWuRt1aNP7DhuSqw2D3jNDEYCn2QouetgfYYwbiMKxNuNGA+2nyiidsWx5k3vZnKPelTidnNd/98jmQ2ASydlVOEKX7b4Bd/ddwkVNAhSDPTEG9aJaDdfbwBynWU/+vO9OK/+ds3A1Tif4uIcGQT5uLUIltuP6oEH71jwf7ZX5JV3OjHku6XWyDL7G7O1ztVOyW31S+qd+85t0mUzG5Nq6EOpqTMwFBzAJwhDlFYxkATyc2NdhADH3XnoVzLtH3M6PbnIc8gj/MLWBHroBkh0hpW8KZef6o=
   matrix:
     - TASK=lint
     - TASK=deploy

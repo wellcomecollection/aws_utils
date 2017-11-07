@@ -155,7 +155,8 @@ if __name__ == '__main__':
 
     subprocess.check_call([
         sys.executable, '-m', 'twine', 'upload',
-        '--config-file', './.pypirc',
+        '--username', os.environ['PYPI_USERNAME'],
+        '--password', os.environ['PYPI_PASSWORD'],
         os.path.join(DIST, '*'),
     ])
 
