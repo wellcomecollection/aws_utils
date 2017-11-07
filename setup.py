@@ -35,6 +35,7 @@ setup(
     ],
     python_requires='>=3.6',
     description='A collection of AWS utilities',
+    long_description=open(README).read(),
     author='Wellcome Trust (Digital Platform Team)',
     author_email='wellcomedigitalplatform@wellcome.ac.uk',
     url='https://github.com/wellcometrust/aws_utils',
