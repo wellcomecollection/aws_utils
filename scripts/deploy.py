@@ -146,6 +146,7 @@ if __name__ == '__main__':
         '-iv $encrypted_83630750896a_iv -in deploy_key.enc -out deploy_key -d',
         shell=True
     )
+    subprocess.check_call(['chmod', '400', 'deploy_key'])
 
     print('Release seems good. Pushing to GitHub now.')
 
