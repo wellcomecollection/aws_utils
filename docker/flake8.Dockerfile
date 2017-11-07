@@ -5,4 +5,4 @@ RUN pip install flake8
 WORKDIR /src
 VOLUME ["/src"]
 
-ENTRYPOINT ["flake8", "/src"]
+ENTRYPOINT ["flake8"]
