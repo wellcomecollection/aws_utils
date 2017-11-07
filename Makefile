@@ -1,10 +1,10 @@
 ROOT = $(shell git rev-parse --show-toplevel)
 
 
-$(ROOT)/.docker/flake8: $(ROOT)/docker/flake8.Dockerfile
-	docker build --tag flake8 --file docker/flake8.Dockerfile docker
+$(ROOT)/.docker/tox: $(ROOT)/docker/tox.Dockerfile
+	docker build --tag tox --file docker/tox.Dockerfile docker
 	mkdir -p $(ROOT)/.docker
-	touch $(ROOT)/.docker/flake8
+	touch $(ROOT)/.docker/tox
 
 $(ROOT)/.docker/tooling: $(ROOT)/docker/tooling.Dockerfile
 	docker build --tag tooling --file docker/tooling.Dockerfile docker
@@ -12,8 +12,11 @@ $(ROOT)/.docker/tooling: $(ROOT)/docker/tooling.Dockerfile
 	touch $(ROOT)/.docker/tooling
 
 
-lint: $(ROOT)/.docker/flake8
-	docker run --rm --tty --volume $(ROOT):/src flake8
+lint: $(ROOT)/.docker/tox
+	docker run --rm --tty --volume $(ROOT):/src tox -e lint
+
+test: $(ROOT)/.docker/tox
+	docker run --rm --tty --volume $(ROOT):/src tox -e py36
 
 check-release-file: $(ROOT)/.docker/tooling
 	docker run --rm --tty \
@@ -28,4 +31,4 @@ deploy: $(ROOT)/.docker/tooling
 		tooling scripts/deploy.py
 
 
-.PHONY: lint check-release-file deploy
+.PHONY: lint test check-release-file deploy
