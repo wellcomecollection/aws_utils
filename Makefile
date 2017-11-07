@@ -20,5 +20,4 @@ deploy: $(ROOT)/.docker/tooling
 	docker run --rm --tty \
 		--env-file env.list \
 		--volume $(ROOT):/src \
-		--volume ~/.gitconfig:/root/.gitconfig \
 		tooling scripts/deploy.py
