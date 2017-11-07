@@ -12,10 +12,15 @@ $(ROOT)/.docker/tooling: $(ROOT)/docker/tooling.Dockerfile
 	touch $(ROOT)/.docker/tooling
 
 
-lint: $(ROOT)/.docker/flake8
-	docker run --rm --tty --volume $(ROOT):/src flake8
+# lint: $(ROOT)/.docker/flake8
+# 	docker run --rm --tty --volume $(ROOT):/src flake8
+
+lint:
+	echo "Hello world"
 
 deploy: $(ROOT)/.docker/tooling
+	env > env.list
 	docker run --rm --tty \
+		--env-file env.list \
 		--volume $(ROOT):/src \
 		tooling scripts/deploy.py
