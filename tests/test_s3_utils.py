@@ -1,13 +1,12 @@
 # -*- encoding: utf-8 -*-
 
-import dateutil.parser
-
 import boto3
 from botocore.exceptions import ClientError
+import dateutil.parser
 from moto import mock_s3
 import pytest
 
-from src.wellcome_lambda_utils import s3_utils
+from wellcome_aws_utils import s3_utils
 
 
 def s3_event():
@@ -176,11 +175,11 @@ def test_parse_s3_event():
 
 
 @mock_s3
-def test_write_dicts_to_s3():
+def test_write_objects_to_s3():
     client = boto3.client('s3')
     client.create_bucket(Bucket='bukkit')
 
-    s3_utils.write_dicts_to_s3(
+    s3_utils.write_objects_to_s3(
         bucket='bukkit', key='dicts.txt',
         dicts=[{'a': 1, 'b': 2}, {'c': 3, 'd': 4}]
     )
