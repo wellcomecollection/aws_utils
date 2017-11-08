@@ -6,15 +6,10 @@
 Welcome to Wellcome AWS Utils's documentation!
 ==============================================
 
+This package is a collection of utilities written at Wellcome for interacting with AWS.
+
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
+   :hidden:
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   changes
