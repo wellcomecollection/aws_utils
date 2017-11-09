@@ -6,3 +6,5 @@ dist
 env.list
 deploy_key
 .tox
+
+docs/_build
