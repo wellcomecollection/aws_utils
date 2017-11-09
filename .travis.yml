@@ -24,7 +24,7 @@ env:
   matrix:
     - TOXENV=lint
     - TOXENV=check_release_file
-    - TOXENV=test
+    - TOXENV=py36
     - TOXENV=deploy
 
 script:
