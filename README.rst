@@ -5,7 +5,7 @@ This module is a collection of AWS-related utilities that we wrote while working
 
 Some of these utilities are very specific to Wellcome projects, others are more generic and should be generally useful.
 
-Documentation is available at `http://wellcome-aws-utils.readthedocs.io/ <http://wellcome-aws-utils.readthedocs.io/>`_.
+Documentation is available at `wellcome-aws-utils.readthedocs.io <https://wellcome-aws-utils.readthedocs.io/en/latest/>`_.
 
 Installation
 ************
