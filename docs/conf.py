@@ -56,8 +56,6 @@ project = 'Wellcome AWS Utils'
 copyright = '2017, Wellcome Digital Platform'
 author = 'Wellcome Digital Platform'
 
-from version import __version__
-
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
