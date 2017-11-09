@@ -13,6 +13,12 @@ lint:
 test:
 	tox -e py36
 
+test_requirements.txt: test_requirements.in
+	tox -e requirements
+
+tool_requirements.txt: tool_requirements.in
+	tox -e requirements
+
 check-release-file: $(ROOT)/.docker/tooling
 	docker run --rm --tty \
 		--volume $(ROOT):/src \
