@@ -22,6 +22,10 @@
 # sys.path.insert(0, os.path.abspath('.'))
 
 
+__version_info__ = (1, 0, 0)
+__version__ = '.'.join(map(str, __version_info__))
+
+
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
