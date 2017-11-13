@@ -169,12 +169,12 @@ def create_modify_event_keys_only():
 
 
 def test_get_source_arn():
-    dynamo_image = dynamo_utils.DynamoEvent(create_insert_event('foo'))
+    dynamo_image = dynamo_event.DynamoEvent(create_insert_event('foo'))
     assert dynamo_image.event_source_arn == event_source_arn
 
 
 def test_insert_event():
-    dynamo_image = dynamo_utils.DynamoEvent(create_insert_event('foo'))
+    dynamo_image = dynamo_event.DynamoEvent(create_insert_event('foo'))
 
     expected_image_with_deserialized_values = {
         'Message': 'foo',
@@ -202,7 +202,7 @@ def test_insert_event():
 
 
 def test_remove_event():
-    dynamo_image = dynamo_utils.DynamoEvent(create_remove_event('foo'))
+    dynamo_image = dynamo_event.DynamoEvent(create_remove_event('foo'))
 
     expected_image_with_deserialized_values = {
         'Message': 'foo',
@@ -232,7 +232,7 @@ def test_remove_event():
 
 
 def test_modify_event():
-    dynamo_image = dynamo_utils.DynamoEvent(create_modify_event('foo', 'bar'))
+    dynamo_image = dynamo_event.DynamoEvent(create_modify_event('foo', 'bar'))
 
     expected_old_image_with_deserialized_values = {
         'Message': 'foo',
@@ -282,7 +282,7 @@ def test_modify_event():
 
 
 def test_modify_event_keys_only():
-    dynamo_image = dynamo_utils.DynamoEvent(create_modify_event_keys_only())
+    dynamo_image = dynamo_event.DynamoEvent(create_modify_event_keys_only())
 
     assert dynamo_image.new_image(deserialize_values=True) is None
     assert dynamo_image.new_image() is None
