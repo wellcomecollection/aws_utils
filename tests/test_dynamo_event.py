@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-from wellcome_aws_utils import dynamo_utils
+from wellcome_aws_utils import dynamo_event
 
 event_source_arn = (
     "arn:aws:dynamodb:us-east-1:123456789012:"
