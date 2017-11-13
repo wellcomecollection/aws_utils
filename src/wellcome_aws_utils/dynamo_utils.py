@@ -1,45 +1,106 @@
 # -*- encoding: utf-8 -*-
 
+from enum import Enum
+
 from boto3.dynamodb.types import TypeDeserializer
 
 
-class DynamoImageFactory:
+class DynamoEventFactory:
     @staticmethod
     def create(event):
-        return [DynamoImage(
-            record['dynamodb'],
-            record['eventSourceARN']
-        )for record in event['Records'] if 'NewImage' in record['dynamodb']]
+        return [DynamoEvent(record) for record in event['Records']]
 
 
-class DynamoImage:
-    def __init__(self, record, source_arn):
+class DynamoEventType(Enum):
+    REMOVE, INSERT, MODIFY = range(3)
+
+
+class DynamoEvent:
+    def __init__(self, record):
         self.record = record
-        self.source_arn = source_arn
 
-    @property
-    def new_image(self):
-        if 'NewImage' in self.record:
-            return self.record['NewImage']
-        else:
-            return None
+        # Basic sanity checking
+        if not ('eventSource' in record):
+            raise Exception(f'Unrecognised event: {record}')
 
-    @property
-    def simplified_new_image(self):
-        image = self.new_image
+        if record['eventSource'] != 'aws:dynamodb':
+            raise Exception(f'Event source is not aws:dynamodb: {record}')
 
-        if image is not None:
-            td = TypeDeserializer()
-            return {k: td.deserialize(v) for k, v in image.items()}
-        else:
-            return None
+        # Event Type
+        if 'eventName' not in record:
+            raise Exception(f'No eventName found in {record}!')
+
+        self.event_type = None
+        if self.record['eventName'] == 'REMOVE':
+            self.event_type = DynamoEventType.REMOVE
+
+        if self.record['eventName'] == 'INSERT':
+            self.event_type = DynamoEventType.INSERT
+
+        if self.record['eventName'] == 'MODIFY':
+            self.event_type = DynamoEventType.MODIFY
+
+        if self.event_type is None:
+            raise Exception(f'Unrecognised eventName (REMOVE/INSERT/MODIFY) found in {record}!')
+
+        # Event source ARN
+        if 'eventSourceARN' not in record:
+            raise Exception(f'No eventSourceARN attribute available on record: {record}')
+
+        self.event_source_arn = record['eventSourceARN']
+
+        # Check for dynamodb attribute
+        if 'dynamodb' not in record:
+            raise Exception(f'No dynamodb attribute available on record: {record}')
+        dynamodb = record['dynamodb']
+
+        # Keys
+        if 'Keys' not in dynamodb:
+            raise Exception(f'No Keys attribute available on record: {record}')
+
+        self._keys = dynamodb['Keys']
+
+        # New & Old Images (if available)
+        new_image = None
+        if 'NewImage' in dynamodb:
+            new_image = dynamodb['NewImage']
+
+        old_image = None
+        if 'OldImage' in dynamodb:
+            old_image = dynamodb['OldImage']
+
+        self._new_image = new_image
+        self._old_image = old_image
+
+    @staticmethod
+    def _deserialize_values(image):
+        td = TypeDeserializer()
+        return {k: td.deserialize(v) for k, v in image.items()}
+
+    def keys(self, deserialize_values=False):
+        if deserialize_values and self._keys:
+            return DynamoEvent._deserialize_values(self._keys)
+
+        return self._keys
+
+    def new_image(self, deserialize_values=False):
+        if deserialize_values and self._new_image:
+            return DynamoEvent._deserialize_values(self._new_image)
+
+        return self._new_image
+
+    def old_image(self, deserialize_values=False):
+        if deserialize_values and self._old_image:
+            return DynamoEvent._deserialize_values(self._old_image)
+
+        return self._old_image
 
 
 def _is_capacity_different(x, desired_capacity):
     read_capacity_units = x['ProvisionedThroughput']['ReadCapacityUnits']
     write_capacity_units = x['ProvisionedThroughput']['WriteCapacityUnits']
     return read_capacity_units != desired_capacity \
-        or write_capacity_units != desired_capacity
+           or write_capacity_units != desired_capacity
 
 
 def change_dynamo_capacity(client, table_name, desired_capacity):
