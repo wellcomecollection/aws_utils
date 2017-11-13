@@ -194,7 +194,10 @@ def test_insert_event():
         }
     }
 
-    assert dynamo_image.new_image(deserialize_values=True) == expected_image_with_deserialized_values
+    assert dynamo_image.new_image(
+        deserialize_values=True
+    ) == expected_image_with_deserialized_values
+
     assert dynamo_image.new_image() == expected_image
 
 
@@ -222,7 +225,9 @@ def test_remove_event():
     assert dynamo_image.new_image(deserialize_values=True) is None
     assert dynamo_image.new_image() is None
 
-    assert dynamo_image.old_image(deserialize_values=True) == expected_image_with_deserialized_values
+    assert dynamo_image.old_image(
+        deserialize_values=True
+    ) == expected_image_with_deserialized_values
     assert dynamo_image.old_image() == expected_image
 
 
@@ -265,10 +270,14 @@ def test_modify_event():
         }
     }
 
-    assert dynamo_image.new_image(deserialize_values=True) == expected_new_image_with_deserialized_values
+    assert dynamo_image.new_image(
+        deserialize_values=True
+    ) == expected_new_image_with_deserialized_values
     assert dynamo_image.new_image() == expected_new_image
 
-    assert dynamo_image.old_image(deserialize_values=True) == expected_old_image_with_deserialized_values
+    assert dynamo_image.old_image(
+        deserialize_values=True
+    ) == expected_old_image_with_deserialized_values
     assert dynamo_image.old_image() == expected_old_image
 
 

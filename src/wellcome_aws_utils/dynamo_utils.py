@@ -16,17 +16,14 @@ class DynamoEventType(Enum):
 
 
 class DynamoEvent:
-    def __init__(self, record):
-        self.record = record
-
-        # Basic sanity checking
+    def _sanity_check_record(self, record):
         if not ('eventSource' in record):
             raise Exception(f'Unrecognised event: {record}')
 
         if record['eventSource'] != 'aws:dynamodb':
             raise Exception(f'Event source is not aws:dynamodb: {record}')
 
-        # Event Type
+    def _set_event_type(self, record):
         if 'eventName' not in record:
             raise Exception(f'No eventName found in {record}!')
 
@@ -41,26 +38,35 @@ class DynamoEvent:
             self.event_type = DynamoEventType.MODIFY
 
         if self.event_type is None:
-            raise Exception(f'Unrecognised eventName (REMOVE/INSERT/MODIFY) found in {record}!')
+            raise Exception(
+                f'Unrecognised eventName found in {record}!'
+            )
 
-        # Event source ARN
+    def _set_event_source_arn(self, record):
         if 'eventSourceARN' not in record:
-            raise Exception(f'No eventSourceARN attribute available on record: {record}')
+            raise Exception(
+                f'No eventSourceARN attribute available on record: {record}'
+            )
 
         self.event_source_arn = record['eventSourceARN']
 
-        # Check for dynamodb attribute
+    def _extract_dynamodb_from_record(self, record):
         if 'dynamodb' not in record:
-            raise Exception(f'No dynamodb attribute available on record: {record}')
-        dynamodb = record['dynamodb']
+            raise Exception(
+                f'No dynamodb attribute available on record: {record}'
+            )
 
-        # Keys
+        return record['dynamodb']
+
+    def _set_keys(self, dynamodb):
         if 'Keys' not in dynamodb:
-            raise Exception(f'No Keys attribute available on record: {record}')
+            raise Exception(
+                f'No Keys attribute available on record.dynamodb: {dynamodb}'
+            )
 
         self._keys = dynamodb['Keys']
 
-        # New & Old Images (if available)
+    def _set_images(self, dynamodb):
         new_image = None
         if 'NewImage' in dynamodb:
             new_image = dynamodb['NewImage']
@@ -71,6 +77,18 @@ class DynamoEvent:
 
         self._new_image = new_image
         self._old_image = old_image
+
+    def __init__(self, record):
+        self.record = record
+
+        self._sanity_check_record(record)
+        self._set_event_type(record)
+        self._set_event_source_arn(record)
+
+        dynamodb = self._extract_dynamodb_from_record(record)
+
+        self._set_keys(dynamodb)
+        self._set_images(dynamodb)
 
     @staticmethod
     def _deserialize_values(image):
@@ -99,8 +117,11 @@ class DynamoEvent:
 def _is_capacity_different(x, desired_capacity):
     read_capacity_units = x['ProvisionedThroughput']['ReadCapacityUnits']
     write_capacity_units = x['ProvisionedThroughput']['WriteCapacityUnits']
-    return read_capacity_units != desired_capacity \
-           or write_capacity_units != desired_capacity
+    return (
+        read_capacity_units != desired_capacity
+    ) or (
+        write_capacity_units != desired_capacity
+    )
 
 
 def change_dynamo_capacity(client, table_name, desired_capacity):
