@@ -24,10 +24,10 @@ env:
 
 jobs:
   include:
-    - env: TASK=lint
-    - env: TASK=check-release-file
-    - env: TASK=test
-    - env: TASK=deploy
+    - env: TOXENV=lint
+    - env: TOXENV=check-release-file
+    - env: TOXENV=test
+    - env: TOXENV=deploy
       stage: deploy
 
 stages:
