@@ -1,8 +1,14 @@
 # -*- encoding: utf-8 -*-
 
+import collections
 import datetime
 import decimal
 import json
+import warnings
+
+from wellcome_aws_utils.exceptions import UnWellcomeException
+
+SNSEvent = collections.namedtuple('SNSEvent', 'subject message')
 
 
 class EnhancedJSONEncoder(json.JSONEncoder):
@@ -47,29 +53,28 @@ def publish_sns_message(sns_client,
 
 def extract_sns_messages_from_lambda_event(event):
     """
-    Extracts a JSON message from an SNS event sent to a lambda
+    Extracts a JSON message from an SNS event sent to an AWS Lambda.
+
+    :param event: An event sent to a Lambda from SNS.
+    :returns: A generator of SNSEvent instances.
 
     """
     if 'Records' not in event:
-        raise Exception(f'No records found in {event}')
+        raise UnWellcomeException(f'No records found in {event}')
 
-    messages = []
     for record in event['Records']:
         if record['EventSource'] != 'aws:sns':
-            raise Exception(f'Invalid message source for {record}')
+            raise UnWellcomeException(f'Invalid message source for {record}')
 
-        if ('Sns' not in record) or ('Message' not in record['Sns']) or ('Subject' not in record['Sns']):
-            raise Exception(f'Invalid message structure for {record}')
+        try:
+            subject = record['Sns']['Subject']
+            message = json.loads(record['Sns']['Message'])
+        except KeyError as e:
+            raise UnWellcomeException(
+                f'Invalid message structure, missing {e} in {record}'
+            )
 
-        subject = record['Sns']['Subject']
-        message = json.loads(record['Sns']['Message'])
-
-        messages.append({
-            'subject': subject,
-            'message': message
-        })
-
-    return messages
+        yield SNSEvent(subject=subject, message=message)
 
 
 def extract_json_message(event):
@@ -78,5 +83,10 @@ def extract_json_message(event):
 
     Deprecated in favour of extract_sns_messages_from_lambda_event
     """
+    warnings.warn(
+        'Deprecated in favour of extract_sns_messages_from_lambda_event',
+        DeprecationWarning
+    )
+
     message = event['Records'][0]['Sns']['Message']
     return json.loads(message)

@@ -90,9 +90,11 @@ def test_extract_sns_messages_from_lambda_event():
         ]
     }
 
-    actual_extracted_message = sns_utils.extract_sns_messages_from_lambda_event(example_event)
+    actual_extracted_message = (
+        sns_utils.extract_sns_messages_from_lambda_event(example_event)
+    )
 
-    assert actual_extracted_message == [{
-        'message': expected_message,
-        'subject': expected_subject
-    }]
+    assert list(actual_extracted_message) == [sns_utils.SNSEvent(
+        message=expected_message,
+        subject=expected_subject
+    )]
