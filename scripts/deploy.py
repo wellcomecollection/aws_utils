@@ -61,7 +61,7 @@ if __name__ == '__main__':
     if os.path.exists(DIST):
         shutil.rmtree(DIST)
 
-    subprocess.check_output([
+    subprocess.check_call([
         sys.executable, 'setup.py', 'sdist', '--dist-dir', DIST,
     ])
 
