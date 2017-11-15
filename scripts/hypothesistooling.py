@@ -172,6 +172,8 @@ def build_jobs():
         'Accept': 'application/vnd.travis-ci.2+json'
     }).json()
 
+    from pprint import pprint; pprint(data)
+
     matrix = data['jobs']
 
     jobs = {}
