@@ -154,37 +154,6 @@ def create_tag_and_push():
     subprocess.check_call(['git', 'push', 'ssh-origin', '--tags'])
 
 
-def build_jobs():
-    """Query the Travis API to find out what the state of the other build jobs
-    is.
-
-    Note: This usage of Travis has been somewhat reverse engineered due
-    to a certain dearth of documentation as to what values what takes
-    when.
-
-    """
-    import requests
-
-    build_id = os.environ['TRAVIS_BUILD_ID']
-
-    url = 'https://api.travis-ci.org/builds/%s' % (build_id,)
-    data = requests.get(url, headers={
-        'Accept': 'application/vnd.travis-ci.2+json'
-    }).json()
-
-    from pprint import pprint; pprint(data)
-
-    matrix = data['jobs']
-
-    jobs = {}
-
-    for m in matrix:
-        name = m['config']['env'].replace('TASK=', '')
-        status = m['state']
-        jobs.setdefault(status, []).append(name)
-    return jobs
-
-
 def modified_files():
     files = set()
     for command in [

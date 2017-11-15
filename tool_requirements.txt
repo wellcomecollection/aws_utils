@@ -4,12 +4,8 @@
 #
 #    pip-compile --output-file tool_requirements.txt tool_requirements.in
 #
-certifi==2017.11.5        # via requests
-chardet==3.0.4            # via requests
-idna==2.6                 # via requests
 pkginfo==1.4.1            # via twine
 requests-toolbelt==0.8.0  # via twine
 requests==2.18.4
 tqdm==4.19.4              # via twine
 twine==1.9.1
-urllib3==1.22             # via requests
