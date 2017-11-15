@@ -147,9 +147,6 @@ def create_tag_and_push():
     )
     git('tag', __version__)
 
-    subprocess.check_call(['chmod', '400', '/root/.ssh/config'])
-    subprocess.check_call(['chown', 'root', '/root/.ssh/config'])
-
     subprocess.check_call(['git', 'push', 'ssh-origin', 'HEAD:master'])
     subprocess.check_call(['git', 'push', 'ssh-origin', '--tags'])
 
