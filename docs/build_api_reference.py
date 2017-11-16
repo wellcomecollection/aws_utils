@@ -8,6 +8,9 @@ import textwrap
 
 from bs4 import BeautifulSoup
 
+working_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(working_dir)
+
 
 tmp_dir = tempfile.mkdtemp()
 
