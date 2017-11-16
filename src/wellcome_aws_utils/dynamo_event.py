@@ -2,7 +2,7 @@ from enum import Enum
 
 from boto3.dynamodb.types import TypeDeserializer
 
-from exceptions import UnWellcomeException
+from wellcome_aws_utils.exceptions import UnWellcomeException
 
 
 def create_dynamo_events(event):
