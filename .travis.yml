@@ -23,6 +23,7 @@ jobs:
   include:
     - env: TOXENV=lint
     - env: TOXENV=check_release_file
+    - env: TOXENV=check_api_docs
     - env: TOXENV=py36
     - env: TOXENV=deploy
       stage: deploy
