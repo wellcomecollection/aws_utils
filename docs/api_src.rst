@@ -12,6 +12,18 @@ Deployment utilities
 .. automodule:: wellcome_aws_utils.deployment_utils
   :members:
 
+DynamoDB events
+***************
+
+.. automodule:: wellcome_aws_utils.dynamo_event
+   :members:
+
+DynamoDB utilities
+******************
+
+.. automodule:: wellcome_aws_utils.dynamo_utils
+   :members:
+
 ECS
 ***
 
