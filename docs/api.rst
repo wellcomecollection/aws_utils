@@ -55,6 +55,31 @@ Deployment utilities
     </dd></dl>
     </dd></dl>
 
+DynamoDB events
+***************
+
+.. raw:: html
+
+    <span id="dynamodb-events"></span>
+    <dl class="class">
+    <dt id="wellcome_aws_utils.dynamo_event.DynamoEventType">
+    <em class="property">class </em><code class="descclassname">wellcome_aws_utils.dynamo_event.</code><code class="descname">DynamoEventType</code><a class="reference internal" href="_modules/wellcome_aws_utils/dynamo_event.html#DynamoEventType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wellcome_aws_utils.dynamo_event.DynamoEventType" title="Permalink to this definition">¶</a></dt>
+    <dd><p>An enumeration.</p>
+    </dd></dl>
+
+DynamoDB utilities
+******************
+
+.. raw:: html
+
+    <span id="dynamodb-utilities"></span>
+    <dl class="function">
+    <dt id="wellcome_aws_utils.dynamo_utils.change_dynamo_capacity">
+    <code class="descclassname">wellcome_aws_utils.dynamo_utils.</code><code class="descname">change_dynamo_capacity</code><span class="sig-paren">(</span><em>client</em>, <em>table_name</em>, <em>desired_capacity</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wellcome_aws_utils/dynamo_utils.html#change_dynamo_capacity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wellcome_aws_utils.dynamo_utils.change_dynamo_capacity" title="Permalink to this definition">¶</a></dt>
+    <dd><p>Given the name of a DynamoDB table and a desired capacity, update the
+    read/write capacity of the table and every secondary index.</p>
+    </dd></dl>
+
 ECS
 ***
 
