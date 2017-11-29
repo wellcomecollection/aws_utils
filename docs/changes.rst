@@ -5,6 +5,18 @@ Changelog
 This is a record of all releases of wellcome_aws_utils.
 
 ------------------
+2.0.0 - 2017-11-29
+------------------
+
+Replacing the DynamoImageFactory and DynamoImage classes with DynamoEventFactory and DynamoEvent
+
+- Perform quite a bit of sanity checking on event object received
+- DynamoEvent can:
+  - return old and new images (if available)
+  - return modified keys only
+  - return deserialized or otherwise images and keys based on params
+
+------------------
 1.1.0 - 2017-11-15
 ------------------
 
