@@ -126,12 +126,6 @@ def has_source_changes(version=None):
     ]) != 0
 
 
-def has_uncommitted_changes(filename):
-    return subprocess.call([
-        'git', 'diff', '--exit-code', filename
-    ]) != 0
-
-
 def git(*args):
     subprocess.check_call(('git',) + args)
 
@@ -165,11 +159,6 @@ def modified_files():
                 assert os.path.exists(filepath)
                 files.add(filepath)
     return files
-
-
-def all_files():
-    return subprocess.check_output(['git', 'ls-files']).decode(
-        'ascii').splitlines()
 
 
 RELEASE_FILE = os.path.join(ROOT, 'RELEASE.rst')
