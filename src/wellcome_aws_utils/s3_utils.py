@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 import json
+from urllib.parse import unquote
 
 import boto3
 from botocore.exceptions import ClientError
@@ -72,7 +73,7 @@ def _extract_s3_event(record):
         "event_name": record["eventName"],
         "event_time": event_datetime,
         "bucket_name": record["s3"]["bucket"]["name"],
-        "object_key": record["s3"]["object"]["key"],
+        "object_key": unquote(record["s3"]["object"]["key"]),
         "size": record["s3"]["object"]["size"],
         "versionId": record["s3"]["object"].get("versionId")
     }
