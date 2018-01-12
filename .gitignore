@@ -5,6 +5,9 @@
 dist
 env.list
 deploy_key
+
+.cache
+.coverage
 .tox
 
 docs/_build
