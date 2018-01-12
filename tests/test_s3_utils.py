@@ -174,6 +174,17 @@ def test_parse_s3_event():
     assert parsed_events == expected_events
 
 
+def test_s3_event_with_special_char_in_key():
+    # We've seen cases where the S3 event has a URL-quoted plus, and this
+    # gets passed into the Lambda.  Check we unpack it correctly.
+    event = s3_event()
+    event['Records'][0]['s3']['object']['key'] = 'foo%2Bbar'
+
+    parsed_events = s3_utils.parse_s3_record(event)
+    assert len(parsed_events) == 1
+    assert parsed_events[0]['object_key'] == 'foo+bar'
+
+
 @mock_s3
 def test_write_objects_to_s3():
     client = boto3.client('s3')
