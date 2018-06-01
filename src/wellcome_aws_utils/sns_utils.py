@@ -45,8 +45,11 @@ def publish_sns_message(sns_client,
         Subject=subject
     )
 
-    print(f'SNS response = {response!r}')
-    assert response['ResponseMetadata']['HTTPStatusCode'] == 200
+    if response['ResponseMetadata']['HTTPStatusCode'] == 200:
+        print(f'SNS: sent notification {response["MessageId"]}')
+    else:
+        print(f'SNS: unexpected error = {response!r}')
+        raise RuntimeError
 
     return response
 
