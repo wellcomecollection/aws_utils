@@ -1,4 +1,4 @@
-RELEASE_TYPE: minor
+RELEASE_TYPE: patch
 
 Previously sending a message with ``sns_utils.publish_sns_message`` would
 log the entire SNS response.
