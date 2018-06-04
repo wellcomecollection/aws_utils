@@ -5,6 +5,15 @@ Changelog
 This is a record of all releases of wellcome_aws_utils.
 
 ------------------
+2.0.2 - 2018-06-04
+------------------
+
+Previously sending a message with ``sns_utils.publish_sns_message`` would
+log the entire SNS response.
+
+Now the response is only logged if the SNS message is unsuccessful.
+
+------------------
 2.0.1 - 2018-01-12
 ------------------
 
