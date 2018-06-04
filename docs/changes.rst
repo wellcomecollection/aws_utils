@@ -5,6 +5,12 @@ Changelog
 This is a record of all releases of wellcome_aws_utils.
 
 ------------------
+2.1.1 - 2018-06-04
+------------------
+
+Now ``@log_on_error`` can be used to decorate functions with arbitrary arguments/keyword arguments.
+
+------------------
 2.1.0 - 2018-06-04
 ------------------
 
