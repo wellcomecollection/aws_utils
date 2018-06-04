@@ -86,6 +86,10 @@ ECS
 .. raw:: html
 
     <span id="ecs"></span>
+    <dl class="exception">
+    <dt id="wellcome_aws_utils.ecs_utils.EcsThrottleException">
+    <em class="property">exception </em><code class="descclassname">wellcome_aws_utils.ecs_utils.</code><code class="descname">EcsThrottleException</code><a class="reference internal" href="_modules/wellcome_aws_utils/ecs_utils.html#EcsThrottleException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wellcome_aws_utils.ecs_utils.EcsThrottleException" title="Permalink to this definition">¶</a></dt>
+    <dd></dd></dl>
     <dl class="function">
     <dt id="wellcome_aws_utils.ecs_utils.clone_task_definition">
     <code class="descclassname">wellcome_aws_utils.ecs_utils.</code><code class="descname">clone_task_definition</code><span class="sig-paren">(</span><em>client</em>, <em>task_definition</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wellcome_aws_utils/ecs_utils.html#clone_task_definition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wellcome_aws_utils.ecs_utils.clone_task_definition" title="Permalink to this definition">¶</a></dt>
@@ -214,6 +218,30 @@ SNS
 
     <span id="sns"></span>
     <dl class="class">
+    <dt id="wellcome_aws_utils.sns_utils.EnhancedJSONEncoder">
+    <em class="property">class </em><code class="descclassname">wellcome_aws_utils.sns_utils.</code><code class="descname">EnhancedJSONEncoder</code><span class="sig-paren">(</span><em>*</em>, <em>skipkeys=False</em>, <em>ensure_ascii=True</em>, <em>check_circular=True</em>, <em>allow_nan=True</em>, <em>sort_keys=False</em>, <em>indent=None</em>, <em>separators=None</em>, <em>default=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wellcome_aws_utils/sns_utils.html#EnhancedJSONEncoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wellcome_aws_utils.sns_utils.EnhancedJSONEncoder" title="Permalink to this definition">¶</a></dt>
+    <dd><dl class="method">
+    <dt id="wellcome_aws_utils.sns_utils.EnhancedJSONEncoder.default">
+    <code class="descname">default</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wellcome_aws_utils/sns_utils.html#EnhancedJSONEncoder.default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wellcome_aws_utils.sns_utils.EnhancedJSONEncoder.default" title="Permalink to this definition">¶</a></dt>
+    <dd><p>Implement this method in a subclass such that it returns
+    a serializable object for <code class="docutils literal notranslate"><span class="pre">o</span></code>, or calls the base implementation
+    (to raise a <code class="docutils literal notranslate"><span class="pre">TypeError</span></code>).</p>
+    <p>For example, to support arbitrary iterators, you could
+    implement default like this:</p>
+    <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">iterable</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+        <span class="c1"># Let the base class default method raise the TypeError</span>
+        <span class="k">return</span> <span class="n">JSONEncoder</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span>
+    </pre></div>
+    </div>
+    </dd></dl>
+    </dd></dl>
+    <dl class="class">
     <dt id="wellcome_aws_utils.sns_utils.SNSEvent">
     <em class="property">class </em><code class="descclassname">wellcome_aws_utils.sns_utils.</code><code class="descname">SNSEvent</code><span class="sig-paren">(</span><em>subject</em>, <em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#wellcome_aws_utils.sns_utils.SNSEvent" title="Permalink to this definition">¶</a></dt>
     <dd><dl class="attribute">
@@ -264,7 +292,7 @@ SQS
     <dl class="function">
     <dt id="wellcome_aws_utils.sqs_utils.get_messages">
     <code class="descclassname">wellcome_aws_utils.sqs_utils.</code><code class="descname">get_messages</code><span class="sig-paren">(</span><em>queue_url</em>, <em>delete=False</em>, <em>batch_size=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wellcome_aws_utils/sqs_utils.html#get_messages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wellcome_aws_utils.sqs_utils.get_messages" title="Permalink to this definition">¶</a></dt>
-    <dd><p>Gets messages from an SQS queue.  If <code class="docutils literal"><span class="pre">delete</span></code> is True, the
+    <dd><p>Gets messages from an SQS queue.  If <code class="docutils literal notranslate"><span class="pre">delete</span></code> is True, the
     messages are also deleted after they’ve been read.</p>
     </dd></dl>
 
