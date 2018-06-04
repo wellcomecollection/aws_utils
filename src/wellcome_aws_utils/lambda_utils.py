@@ -6,12 +6,12 @@ import sys
 
 def log_on_error(fn):
     @functools.wraps(fn)
-    def wrapper(event, context):
+    def wrapper(*args, **kwargs):
         try:
-            fn(event, context)
+            fn(*args, **kwargs)
         except Exception as err:
-            print(f'event   = {event!r}', file=sys.stderr)
-            print(f'context = {context!r}', file=sys.stderr)
+            print(f'args   = {args!r}', file=sys.stderr)
+            print(f'kwargs = {kwargs!r}', file=sys.stderr)
             raise
 
     return wrapper
