@@ -4,11 +4,15 @@ import collections
 import datetime
 import decimal
 import json
+import logging
 import warnings
 
 from wellcome_aws_utils.exceptions import UnWellcomeException
 
 SNSEvent = collections.namedtuple('SNSEvent', 'subject message')
+
+
+logger = logging.getLogger(__name__)
 
 
 class EnhancedJSONEncoder(json.JSONEncoder):
@@ -46,10 +50,9 @@ def publish_sns_message(sns_client,
     )
 
     if response['ResponseMetadata']['HTTPStatusCode'] == 200:
-        print(f'SNS: sent notification {response["MessageId"]}')
+        logger.debug('SNS: sent notification %s', response["MessageId"])
     else:
-        print(f'SNS: unexpected error = {response!r}')
-        raise RuntimeError
+        raise RuntimeError(repr(response))
 
     return response
 
