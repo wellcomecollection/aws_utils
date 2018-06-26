@@ -5,6 +5,15 @@ Changelog
 This is a record of all releases of wellcome_aws_utils.
 
 ------------------
+2.1.2 - 2018-06-26
+------------------
+
+Previously sending a message with ``sns_utils.publish_sns_message`` would
+print a message upon success.
+
+Now this message is only logged at debug level.
+
+------------------
 2.1.1 - 2018-06-04
 ------------------
 
