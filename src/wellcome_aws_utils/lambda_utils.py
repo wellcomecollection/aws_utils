@@ -8,7 +8,7 @@ def log_on_error(fn):
     @functools.wraps(fn)
     def wrapper(*args, **kwargs):
         try:
-            fn(*args, **kwargs)
+            return fn(*args, **kwargs)
         except Exception as err:
             print(f'args   = {args!r}', file=sys.stderr)
             print(f'kwargs = {kwargs!r}', file=sys.stderr)
