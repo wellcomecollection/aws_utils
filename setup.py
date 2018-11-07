@@ -32,6 +32,8 @@ setup(
         'boto3',
         'daiquiri',
         'python-dateutil',
+        'elasticsearch',
+        'attrs'
     ],
     python_requires='>=3.6',
     description='A collection of AWS utilities',
