@@ -1,8 +1,7 @@
 import json
 import boto3
-import elasticsearch
 from moto import mock_s3
-from unittest.mock import patch, Mock
+from unittest.mock import patch
 from wellcome_aws_utils.reporting_utils import process_messages
 
 
@@ -11,7 +10,9 @@ def create_sns_message(bucket_name, id, key):
         "Records": [
             {
                 "Sns": {
-                    "Message": f'{{"id":"{id}","version":1,"location":{{"namespace":"{bucket_name}","key":"{key}"}}}}',
+                    "Message": (f'{{"id":"{id}","version":1,"location":'
+                                f'{{"namespace":"{bucket_name}","'
+                                f'key":"{key}"}}}}'),
                     "MessageAttributes": {},
                     "MessageId": "0cf7d798-64c8-45a7-a7bf-a9ebc94d1108",
                     "Type": "Notification",
@@ -47,11 +48,14 @@ class TestReportingUtils(object):
             hybrid_data = '{"foo": "bar"}'
             key = "00/V0000001/0.json"
             bucket = "bukkit"
-            
+
             s3_client = boto3.client('s3')
             s3_client.create_bucket(Bucket=bucket)
             given_s3_has(
-                s3_client=s3_client, bucket=bucket, key=key, data=json.dumps(hybrid_data)
+                s3_client=s3_client,
+                bucket=bucket,
+                key=key,
+                data=json.dumps(hybrid_data)
             )
 
             event = create_sns_message(bucket, id, key)
@@ -66,5 +70,8 @@ class TestReportingUtils(object):
             )
 
             mock_elasticsearch_client.index.assert_called_once_with(
-                body=hybrid_data, doc_type=elasticsearch_doctype, id=id, index=elasticsearch_index
-                )
+                body=hybrid_data,
+                doc_type=elasticsearch_doctype,
+                id=id,
+                index=elasticsearch_index
+            )

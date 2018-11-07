@@ -45,7 +45,8 @@ def get_s3_objects_from_messages(s3, messages):
     for message in messages:
         hybrid_record = HybridRecord(**message)
         s3_object = s3.get_object(
-            Bucket=hybrid_record.location.namespace, Key=hybrid_record.location.key
+            Bucket=hybrid_record.location.namespace,
+            Key=hybrid_record.location.key
         )
         yield hybrid_record.id, s3_object
 
@@ -58,7 +59,10 @@ def unpack_json_from_s3_objects(s3_objects):
 
 def transform_data_for_es(data, transform):
     for hybrid_record_id, data_dict in data:
-        yield ElasticsearchRecord(id=hybrid_record_id, doc=transform(data_dict))
+        yield ElasticsearchRecord(
+            id=hybrid_record_id,
+            doc=transform(data_dict)
+        )
 
 
 @log_on_error
@@ -85,4 +89,9 @@ def _process_messages(event, transform, s3_client, es_client, index, doc_type):
     es_records_to_send = transform_data_for_es(data, transform)
 
     for record in es_records_to_send:
-        es_client.index(index=index, doc_type=doc_type, id=record.id, body=record.doc)
+        es_client.index(
+            index=index,
+            doc_type=doc_type,
+            id=record.id,
+            body=record.doc
+        )
