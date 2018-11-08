@@ -5,6 +5,24 @@ Changelog
 This is a record of all releases of wellcome_aws_utils.
 
 ------------------
+2.2.0 - 2018-11-08
+------------------
+
+This release adds utils for the reporting pipeline. 
+
+The functions under ``reporting_utils.py`` describe a basic ETL pipeline from VHS to Elasticsearch, without a transformation specified. In this way, the shape of the pipeline remains independent of both the data within it and the transforms being applied. 
+
+As further data sources are added to the reporting pipeline and more Lambda functions are created, we keep repeated code to a minimum. In a new Lambda function, the user should specify a set of data-source-specific transformations in a ``transform.py`` file. The Lambda's ``main`` can then remain minimal and generic:
+
+.. code-block:: python
+    from wellcome_aws_utils.reporting_utils import process_messages
+    from transform import transform
+
+
+    def main(event, _, s3_client=None, es_client=None, index=None, doc_type=None):
+        process_messages(event, transform, s3_client, es_client, index, doc_type)
+
+------------------
 2.1.3 - 2018-08-17
 ------------------
 
