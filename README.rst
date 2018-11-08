@@ -20,7 +20,7 @@ It was originally written to run inside the AWS Lambda environment, which suppor
 Running Tests
 *************
 
-First, run `export ROOT=$path to repo root$`
+First, run `export ROOT=$(git rev-parse --show-toplevel)`
 
 To run tests, run `make test`
 
