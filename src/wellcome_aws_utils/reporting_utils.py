@@ -37,8 +37,14 @@ class ElasticsearchRecord(object):
 
 
 def extract_sns_messages_from_event(event):
+    keys_to_keep = ['id', 'version', 'location']
+
     for record in event["Records"]:
-        yield json.loads(record["Sns"]["Message"])
+        full_message = json.loads(record["Sns"]["Message"])
+        stripped_message = {
+            k: v for k, v in full_message.items() if k in keys_to_keep
+        }
+        yield stripped_message
 
 
 def get_s3_objects_from_messages(s3, messages):
