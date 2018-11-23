@@ -5,6 +5,14 @@ Changelog
 This is a record of all releases of wellcome_aws_utils.
 
 ------------------
+2.2.1 - 2018-11-23
+------------------
+
+A large number of records in the Sierra VHS contain a ``reindexShard`` parameter which is not expected when initialising a ``HybridRecord()`` object. ``attrs`` can't handle data it doesn't expect, and the records with ``reindexShard`` parameters therefore fail to pass through the pipeline.
+
+We now throw away any unnecessary data in the received message, allowing originally dirty messages to pass through without issue.
+
+------------------
 2.2.0 - 2018-11-08
 ------------------
 
