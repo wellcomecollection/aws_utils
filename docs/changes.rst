@@ -5,6 +5,12 @@ Changelog
 This is a record of all releases of wellcome_aws_utils.
 
 ------------------
+2.3.2 - 2019-05-21
+------------------
+
+Adds ability to switch AWS roles when fetching elasticsearch credentials
+
+------------------
 2.3.1 - 2019-05-21
 ------------------
 
