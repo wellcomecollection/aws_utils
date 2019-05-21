@@ -85,17 +85,31 @@ def transform_data_for_es(data, transform):
 
 
 @log_on_error
-def process_messages(event, transform, index):
-    s3_client = boto3.client("s3")
-    credentials = get_es_credentials()
+def process_messages(
+    event, transform, index, s3_client=None, es_client=None, credentials=None
+):
+    s3_client = s3_client or boto3.client("s3")
 
-    es_client = Elasticsearch(
-        hosts=credentials["url"],
-        use_ssl=True,
-        ca_certs=certifi.where(),
-        http_auth=(credentials['username'], credentials['password'])
-    )
+    if es_client:
+        pass
 
+    elif credentials and not es_client:
+        es_client = Elasticsearch(
+            hosts=credentials["url"],
+            use_ssl=True,
+            ca_certs=certifi.where(),
+            http_auth=(credentials['username'], credentials['password'])
+        )
+
+    else:
+        raise ValueError(
+            'process_messages needs an elasticsearch client or a set of credentials to create one'
+        )
+
+    _process_messages(event, transform, index, s3_client, es_client)
+
+
+def _process_messages(event, transform, index, s3_client, es_client):
     messages = extract_sns_messages_from_event(event)
     s3_objects = get_s3_objects_from_messages(s3_client, messages)
     data = unpack_json_from_s3_objects(s3_objects)
@@ -104,7 +118,7 @@ def process_messages(event, transform, index):
     for record in es_records_to_send:
         es_client.index(
             index=index,
-            doc_type="doc",
+            doc_type="_doc",
             id=record.id,
             body=record.doc
         )
