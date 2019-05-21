@@ -4,7 +4,6 @@
 get records from VHS, apply the transformation to them, and shove them into
 an elasticsearch index
 """
-import os
 import json
 import boto3
 import certifi
@@ -103,7 +102,8 @@ def process_messages(
 
     else:
         raise ValueError(
-            'process_messages needs an elasticsearch client or a set of credentials to create one'
+            'process_messages needs an elasticsearch client or a set of '
+            'credentials to create one'
         )
 
     _process_messages(event, transform, index, s3_client, es_client)
