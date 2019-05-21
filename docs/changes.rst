@@ -5,6 +5,12 @@ Changelog
 This is a record of all releases of wellcome_aws_utils.
 
 ------------------
+2.3.1 - 2019-05-21
+------------------
+
+Now with fixed Travis credentials.
+
+------------------
 2.3.0 - 2019-05-21
 ------------------
 
