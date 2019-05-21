@@ -13,6 +13,19 @@ from elasticsearch import Elasticsearch
 from wellcome_aws_utils.lambda_utils import log_on_error
 
 
+def get_es_credentials():
+    session = boto3.session.Session()
+    client = session.client(
+        service_name='secretsmanager',
+        region_name="eu-west-1"
+    )
+    get_secret_value_response = client.get_secret_value(
+        SecretId="prod/Elasticsearch/ReportingCredentials"
+    )
+    secret = get_secret_value_response['SecretString']
+    return json.loads(secret)
+
+
 def dict_to_location(d):
     return ObjectLocation(**d)
 
