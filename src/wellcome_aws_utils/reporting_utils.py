@@ -12,8 +12,8 @@ from elasticsearch import Elasticsearch
 from wellcome_aws_utils.lambda_utils import log_on_error
 
 
-def get_es_credentials():
-    session = boto3.session.Session()
+def get_es_credentials(profile_name=None):
+    session = boto3.session.Session(profile_name=profile_name)
     client = session.client(
         service_name='secretsmanager',
         region_name="eu-west-1"
