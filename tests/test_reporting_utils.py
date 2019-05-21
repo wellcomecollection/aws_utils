@@ -44,7 +44,6 @@ class TestReportingUtils(object):
             id = "V0000001"
             mock_elasticsearch_client = MockElasticsearch()
             elasticsearch_index = "index"
-            elasticsearch_doctype = "example"
             hybrid_data = '{"foo": "bar"}'
             key = "00/V0000001/0.json"
             bucket = "bukkit"
@@ -63,15 +62,14 @@ class TestReportingUtils(object):
             process_messages(
                 event,
                 identity_transform,
-                s3_client,
-                mock_elasticsearch_client,
                 elasticsearch_index,
-                elasticsearch_doctype,
+                s3_client,
+                mock_elasticsearch_client
             )
 
             mock_elasticsearch_client.index.assert_called_once_with(
                 body=hybrid_data,
-                doc_type=elasticsearch_doctype,
+                doc_type="_doc",
                 id=id,
                 index=elasticsearch_index
             )
