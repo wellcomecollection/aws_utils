@@ -5,6 +5,12 @@ Changelog
 This is a record of all releases of wellcome_aws_utils.
 
 ------------------
+2.3.0 - 2019-05-21
+------------------
+
+This release modifies the way that secrets are handled by lambdas in the reporting pipleine. Previously, secrets were passed to lambdas as environment variables, defined in terraform. We now fetch secrets from AWS secretsmanager as records move through the pipeline.
+
+------------------
 2.2.1 - 2018-11-23
 ------------------
 
