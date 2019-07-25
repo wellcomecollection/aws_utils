@@ -120,5 +120,5 @@ def _process_messages(event, transform, index, s3_client, es_client):
             index=index,
             doc_type="_doc",
             id=record.id,
-            body=record.doc
+            body=json.dumps(record.doc)
         )
