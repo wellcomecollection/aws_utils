@@ -68,7 +68,7 @@ class TestReportingUtils(object):
             )
 
             mock_elasticsearch_client.index.assert_called_once_with(
-                body=hybrid_data,
+                body=json.dumps(hybrid_data),
                 doc_type="_doc",
                 id=id,
                 index=elasticsearch_index
