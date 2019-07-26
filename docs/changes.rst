@@ -5,6 +5,12 @@ Changelog
 This is a record of all releases of wellcome_aws_utils.
 
 ------------------
+2.3.3 - 2019-07-26
+------------------
+
+Makes sure that the Elasticsearch doc is sent over as a string.
+
+------------------
 2.3.2 - 2019-05-21
 ------------------
 
