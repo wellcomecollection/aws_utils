@@ -38,6 +38,6 @@ s3transfer==0.1.11        # via boto3
 six==1.11.0               # via cryptography, docker, docker-pycreds, mock, moto, python-dateutil, websocket-client
 urllib3==1.22             # via requests
 websocket-client==0.44.0  # via docker
-werkzeug==0.12.2          # via moto
+werkzeug==0.15.3          # via moto
 wrapt==1.10.11            # via aws-xray-sdk
 xmltodict==0.11.0         # via moto
