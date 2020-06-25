@@ -32,14 +32,14 @@ def dict_to_location(d):
 @attrs
 class ObjectLocation(object):
     namespace = attrib()
-    key = attrib()
+    path = attrib()
 
 
 @attrs
-class HybridRecord(object):
+class Record(object):
     id = attrib()
     version = attrib()
-    location = attrib(converter=dict_to_location)
+    payload = attrib(converter=dict_to_location)
 
 
 @attrs
@@ -49,7 +49,7 @@ class ElasticsearchRecord(object):
 
 
 def extract_sns_messages_from_event(event):
-    keys_to_keep = ['id', 'version', 'location']
+    keys_to_keep = ['id', 'version', 'payload']
 
     for record in event["Records"]:
         full_message = json.loads(record["Sns"]["Message"])
@@ -61,24 +61,24 @@ def extract_sns_messages_from_event(event):
 
 def get_s3_objects_from_messages(s3, messages):
     for message in messages:
-        hybrid_record = HybridRecord(**message)
+        record = Record(**message)
         s3_object = s3.get_object(
-            Bucket=hybrid_record.location.namespace,
-            Key=hybrid_record.location.key
+            Bucket=record.payload.namespace,
+            Key=record.payload.path
         )
-        yield hybrid_record.id, s3_object
+        yield record.id, s3_object
 
 
 def unpack_json_from_s3_objects(s3_objects):
-    for hybrid_record_id, s3_object in s3_objects:
-        record = s3_object["Body"].read().decode("utf-8")
-        yield hybrid_record_id, json.loads(record)
+    for id, s3_object in s3_objects:
+        data = s3_object["Body"].read().decode("utf-8")
+        yield id, json.loads(data)
 
 
 def transform_data_for_es(data, transform):
-    for hybrid_record_id, data_dict in data:
+    for id, data_dict in data:
         yield ElasticsearchRecord(
-            id=hybrid_record_id,
+            id=id,
             doc=transform(data_dict)
         )
 
@@ -89,10 +89,7 @@ def process_messages(
 ):
     s3_client = s3_client or boto3.client("s3")
 
-    if es_client:
-        pass
-
-    elif credentials and not es_client:
+    if credentials and not es_client:
         es_client = Elasticsearch(
             hosts=credentials["url"],
             use_ssl=True,
@@ -100,7 +97,7 @@ def process_messages(
             http_auth=(credentials['username'], credentials['password'])
         )
 
-    else:
+    elif not es_client:
         raise ValueError(
             'process_messages needs an elasticsearch client or a set of '
             'credentials to create one'
