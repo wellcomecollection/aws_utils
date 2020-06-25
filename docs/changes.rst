@@ -5,6 +5,12 @@ Changelog
 This is a record of all releases of wellcome_aws_utils.
 
 ------------------
+3.0.0 - 2020-06-25
+------------------
+
+The schema of VHS data has changed meaning the `reporting_utils` are currently broken. This updates to the latest VHS data format.
+
+------------------
 2.3.3 - 2019-07-26
 ------------------
 
