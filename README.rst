@@ -7,6 +7,9 @@ Some of these utilities are very specific to Wellcome projects, others are more 
 
 Documentation is available at `wellcome-aws-utils.readthedocs.io <https://wellcome-aws-utils.readthedocs.io/en/latest/>`_.
 
+.. image:: https://travis-ci.org/wellcomecollection/aws_utils.svg?branch=master
+    :target: https://travis-ci.org/wellcomecollection/aws_utils
+
 Installation
 ************
 
