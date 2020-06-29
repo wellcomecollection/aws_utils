@@ -5,6 +5,12 @@ Changelog
 This is a record of all releases of wellcome_aws_utils.
 
 ------------------
+3.1.0 - 2020-06-29
+------------------
+
+The adapters now only send an ID / Version, and we need to look that up in Dynamo to fetch the S3 object in the reporting code.
+
+------------------
 3.0.0 - 2020-06-25
 ------------------
 
