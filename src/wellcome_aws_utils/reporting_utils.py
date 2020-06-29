@@ -90,10 +90,11 @@ def transform_data_for_es(data, transform):
 
 @log_on_error
 def process_messages(
-    event, transform, index, table_name, dynamo_client=None, s3_client=None, es_client=None, credentials=None
+    event, transform, index, table_name, dynamodb=None, s3_client=None,
+    es_client=None, credentials=None
 ):
     s3_client = s3_client or boto3.client("s3")
-    dynamo_table = (dynamo_client or boto3.resource("dynamodb")).Table(table_name)
+    dynamo_table = (dynamodb or boto3.resource("dynamodb")).Table(table_name)
 
     if credentials and not es_client:
         es_client = Elasticsearch(
@@ -109,12 +110,18 @@ def process_messages(
             'credentials to create one'
         )
 
-    _process_messages(event, transform, index, dynamo_table, s3_client, es_client)
+    _process_messages(
+        event, transform, index, dynamo_table, s3_client, es_client
+    )
 
 
-def _process_messages(event, transform, index, dynamo_table, s3_client, es_client):
+def _process_messages(
+    event, transform, index, dynamo_table, s3_client, es_client
+):
     messages = extract_sns_messages_from_event(event)
-    s3_objects = get_s3_objects_from_messages(dynamo_table, s3_client, messages)
+    s3_objects = get_s3_objects_from_messages(
+        dynamo_table, s3_client, messages
+    )
     data = unpack_json_from_s3_objects(s3_objects)
     es_records_to_send = transform_data_for_es(data, transform)
 
