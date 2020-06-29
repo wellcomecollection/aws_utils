@@ -1,18 +1,16 @@
 import json
 import boto3
-from moto import mock_s3
+from moto import mock_s3, mock_dynamodb2
 from unittest.mock import patch
 from wellcome_aws_utils.reporting_utils import process_messages
 
 
-def create_sns_message(bucket_name, id, path):
+def create_sns_message(id):
     return {
         "Records": [
             {
                 "Sns": {
-                    "Message": (f'{{"id":"{id}","version":1,"payload":'
-                                f'{{"namespace":"{bucket_name}","'
-                                f'path":"{path}"}}}}'),
+                    "Message": (f'{{"id":"{id}","version":1}}'),
                     "MessageAttributes": {},
                     "MessageId": "0cf7d798-64c8-45a7-a7bf-a9ebc94d1108",
                     "Type": "Notification",
@@ -39,6 +37,7 @@ def identity_transform(record):
 
 class TestReportingUtils(object):
     @mock_s3
+    @mock_dynamodb2
     def test_saves_record_in_es(self):
         with patch('elasticsearch.Elasticsearch') as MockElasticsearch:
             id = "V0000001"
@@ -57,14 +56,41 @@ class TestReportingUtils(object):
                 data=json.dumps(hybrid_data)
             )
 
-            event = create_sns_message(bucket, id, path)
+            table_name = 'vhs'
+            dynamodb = boto3.resource('dynamodb')
+            dynamodb.create_table(
+                TableName=table_name,
+                AttributeDefinitions=[{
+                    "AttributeName": "id",
+                    "AttributeType": "S"
+                }],
+                KeySchema=[{
+                    "AttributeName": "id",
+                    "KeyType": "HASH"
+                }],
+                ProvisionedThroughput={
+                    "ReadCapacityUnits": 1,
+                    "WriteCapacityUnits": 1,
+                }
+            )
+            dynamodb.Table(table_name).put_item(
+                Item={
+                    "id": id,
+                    "version": 1,
+                    "payload": {"namespace": bucket, "path": path}
+                }
+            )
+
+            event = create_sns_message(id)
 
             process_messages(
                 event,
                 identity_transform,
                 elasticsearch_index,
-                s3_client,
-                mock_elasticsearch_client
+                table_name,
+                dynamodb=dynamodb,
+                s3_client=s3_client,
+                es_client=mock_elasticsearch_client
             )
 
             mock_elasticsearch_client.index.assert_called_once_with(
