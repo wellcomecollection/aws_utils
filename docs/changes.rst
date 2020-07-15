@@ -5,6 +5,12 @@ Changelog
 This is a record of all releases of wellcome_aws_utils.
 
 ------------------
+3.2.0 - 2020-07-15
+------------------
+
+Also handle SQS messages
+
+------------------
 3.1.0 - 2020-06-29
 ------------------
 
