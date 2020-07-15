@@ -52,11 +52,19 @@ def extract_sns_messages_from_event(event):
     keys_to_keep = ['id', 'version', 'payload']
 
     for record in event["Records"]:
-        full_message = json.loads(record["Sns"]["Message"])
-        stripped_message = {
-            k: v for k, v in full_message.items() if k in keys_to_keep
-        }
-        yield stripped_message
+        try:
+            full_message = json.loads(record["Sns"]["Message"])
+        except KeyError:
+            # This could be a message from SQS rather than SNS so attempt to
+            # decode the "body" of the message
+            event = json.loads(record["body"])
+            for msg in extract_sns_messages_from_event(event):
+                yield msg
+        else:
+            stripped_message = {
+                k: v for k, v in full_message.items() if k in keys_to_keep
+            }
+            yield stripped_message
 
 
 def get_dynamo_record(dynamo_table, message):
